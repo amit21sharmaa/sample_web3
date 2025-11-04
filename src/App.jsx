@@ -4,6 +4,8 @@ import { connectToCelo } from "./utils/celoConnection";
 function App() {
   const [address, setAddress] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+  const [status, setStatus] = useState(false);
+  const [statusMsg, setStatusMsg] = useState("")
 
   useEffect(() => {
     async function connectionWallet() {
@@ -11,6 +13,8 @@ function App() {
         const connection = await connectToCelo();
         if (connection) {
           setAddress(connection.address);
+          setStatus(connection.flag.isMinipay)
+          setStatusMsg(connection.msg)
         }
       } catch (err) {
         console.error(err);
@@ -18,7 +22,6 @@ function App() {
       }
     }
     connectionWallet();
-    console.log(address)
   }, []);
 
   return (
@@ -29,7 +32,7 @@ function App() {
       ) : (
         <p>Connecting to MiniPay...</p>
       )}
-      <p>{errorMsg}</p>
+      <p>{statusMsg}</p>
     </div>
   );
 }
