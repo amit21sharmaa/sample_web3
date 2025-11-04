@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { connectToCelo } from "./utils/celoConnection";
 
 function App() {
-  const [address, setAddress] = useState<string | null>(null);
+  const [address, setAddress] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
 
   useEffect(() => {
     async function connectionWallet() {
@@ -13,6 +14,7 @@ function App() {
         }
       } catch (err) {
         console.error(err);
+        setErrorMsg(err)
       }
     }
     connectionWallet();
@@ -27,6 +29,7 @@ function App() {
       ) : (
         <p>Connecting to MiniPay...</p>
       )}
+      <p>{errorMsg}</p>
     </div>
   );
 }
